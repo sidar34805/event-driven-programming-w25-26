@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Results</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f0f0f0; }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        th { background: #333; color: white; }
+    </style>
+</head>
+<body>
+    <h1>🏆 Oyuncu Skorları</h1>
+    <table id="scores">
+        <thead>
+            <tr><th>User</th><th>Score</th><th>Date</th></tr>
+        </thead>
+        <tbody>Loading...</tbody>
+    </table>
+
+    <script>
+        const URL = "https://legendary-goggles-jj95vjgvprqv2x9v-5678.app.github.dev/webhook/get-scores";
+
+        fetch(URL)
+            .then(res => res.json())
+            .then(data => {
+                const rows = Array.isArray(data) ? data : [data];
+                document.querySelector("tbody").innerHTML = rows.map(r => 
+                    `<tr><td>${r.user}</td><td>${r.score}</td><td>${r.date || r.data}</td></tr>`
+                ).join("");
+            })
+            .catch(e => document.querySelector("tbody").innerHTML = "Hata: " + e);
+    </script>
+</body>
+</html>
